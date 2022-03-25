@@ -22,7 +22,6 @@ const Users = () => {
             default:
                 return phrase = 'человек тусанет с тобой сегодня';
         }
-
     }
 
     const getMessageClasses = () => {
@@ -31,40 +30,42 @@ const Users = () => {
         classes += quantityOfUsers === 0
             ? 'bg-danger'
             : 'bg-primary';
+
         return classes;
     }
 
-    const renderTitleTable = () => {
-        if (quantityOfUsers === 0) return '';
+    const getTheadTableClasses = () => {
+        let classes = '';
 
-        return (
-            <tr>
-                <th scope="col">Имя</th>
-                <th scope="col">Качества</th>
-                <th scope="col">Профессия</th>
-                <th scope="col">Встретился, раз</th>
-                <th scope="col">Оценка</th>
-                <th scope="col"></th>
-            </tr>
-        );
+        classes += quantityOfUsers === 0
+            ? 'd-none'
+            : ''
+
+        return classes;
     }
-
 
     return (
         <>
             <h2>
-              <span
-                  className={getMessageClasses()}
-              >
-              {quantityOfUsers === 0
-                  ? ''
-                  : quantityOfUsers} {renderPhrase(quantityOfUsers)}
-              </span>
+                  <span className={getMessageClasses()}>
+                  {quantityOfUsers === 0
+                      ? ''
+                      : quantityOfUsers} {renderPhrase(quantityOfUsers)}
+                  </span>
             </h2>
+
             <table className="table table-hover">
-                <thead>
-                {renderTitleTable()}
+                <thead className={getTheadTableClasses()}>
+                <tr>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Качества</th>
+                    <th scope="col">Профессия</th>
+                    <th scope="col">Встретился, раз</th>
+                    <th scope="col">Оценка</th>
+                    <th scope="col"/>
+                </tr>
                 </thead>
+
                 <tbody>
                 {
                     users.map(user => {
@@ -79,7 +80,7 @@ const Users = () => {
                                 </td>
                                 <td>{user.profession.name}</td>
                                 <td>{user.completedMeetings}</td>
-                                <td>{user.rate} /5</td>
+                                <td>{user.rate}/5</td>
                                 <td>
                                     <button className='btn btn-danger'
                                             onClick={() => handleDelete(user._id)}
