@@ -8,5 +8,5 @@
 
 ## Стек проекта
 
-* React.js Создан через  [Create React App](https://github.com/facebook/create-react-app)
+* React.js [Create React App](https://github.com/facebook/create-react-app)
 * Bootstrap [Версия v5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
