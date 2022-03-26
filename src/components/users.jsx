@@ -11,17 +11,25 @@ const Users = () => {
 
     const renderPhrase = (number) => {
         let phrase = '';
+        const n = number % 10;
 
-        switch (number) {
-            case 2:
-            case 3:
-            case 4:
-                return phrase = 'человека тусанут с тобой сегодня';
-            case 0:
-                return phrase = 'Никто с тобой не тусанет';
-            default:
-                return phrase = 'человек тусанет с тобой сегодня';
+        if (number === 0) {
+            return phrase = 'Никто с тобой не тусанёт';
         }
+
+        if (n === 1 || (number >= 11 && number <= 20)) {
+            return phrase = 'человек с тобой сегодня тусанёт';
+        }
+
+        if (n >= 5 && n <= 9) {
+            return phrase = 'человек с тобой сегодня тусанёт';
+        }
+
+        if (n >= 2 && n <= 4) {
+            return phrase = 'человека тусанут с тобой сегодня';
+        }
+
+        return phrase = 'человек с тобой сегодня тусанёт';
     }
 
     const getMessageClasses = () => {
