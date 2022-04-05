@@ -125,15 +125,6 @@ const users = [
         rate: 5,
         bookmark: false
     },
-    {
-        _id: "67rdca3dfdfdeeb7f6fgeed47181r",
-        name: "Брэд Питт",
-        profession: professions.actor,
-        qualities: [qualities.handsome],
-        completedMeetings: 434,
-        rate: 5,
-        bookmark: false
-    },
 ]
 
 export function fetchAll() {
