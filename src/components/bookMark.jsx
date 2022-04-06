@@ -6,9 +6,9 @@ const BookMark = () => {
     const getBookMarkStatus = (event) => {
         const {target} = event
 
-        target.className !== 'bi bi-bookmark-star-fill'
-            ? target.className = 'bi bi-bookmark-star-fill'
-            : target.className = "bi bi-bookmark"
+        target.className = target.className !== 'bi bi-bookmark-star-fill'
+            ? 'bi bi-bookmark-star-fill'
+            : "bi bi-bookmark"
     }
 
     return (
