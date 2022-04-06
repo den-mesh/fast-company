@@ -5,7 +5,7 @@ const SearchStatus = ({quantityOfUsers}) => {
     const getMessageClasses = () => {
         let classes = 'badge m-2 ';
 
-        classes += quantityOfUsers === 0
+        classes += !quantityOfUsers
             ? 'bg-danger'
             : 'bg-primary';
 
@@ -38,7 +38,7 @@ const SearchStatus = ({quantityOfUsers}) => {
     return (
         <h2>
           <span className={getMessageClasses()}>
-              {quantityOfUsers === 0
+              {!quantityOfUsers
                   ? ''
                   : quantityOfUsers} {renderPhrase(quantityOfUsers)}
           </span>
