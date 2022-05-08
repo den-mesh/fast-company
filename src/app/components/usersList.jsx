@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import API from "../api";
 import _ from "lodash";
 import { paginate } from "../utils/paginate";
-import { loading } from "../utils/loading";
 import Pagination from "./pagination";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
+import { loading } from "../utils/loading";
 
-const Users = () => {
+const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -129,8 +129,8 @@ const Users = () => {
     return loading();
 };
 
-Users.propTypes = {
+UsersList.propTypes = {
     users: PropTypes.array
 };
 
-export default Users;
+export default UsersList;
