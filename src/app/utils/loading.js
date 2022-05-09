@@ -1,12 +1,8 @@
 export function loading() {
-    return (
-        // eslint-disable-next-line react/react-in-jsx-scope
-        <div className="d-flex justify-content-center align-items-center m-5">
-            {/* eslint-disable-next-line react/react-in-jsx-scope */}
+    return `
+        <div class="d-flex justify-content-center align-items-center m-5">
             <strong>Загрузка...</strong>
-            {/* eslint-disable-next-line react/react-in-jsx-scope */}
-            <div className="spinner-border m-3 text-primary" role="status" aria-hidden="true"></div>
+            <div class="spinner-border m-3 text-primary" role="status" aria-hidden="true"></div>
         </div>
-
-    );
+    `;
 }
