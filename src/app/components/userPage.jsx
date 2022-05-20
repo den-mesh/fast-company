@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import API from "../api";
 import QualitiesList from "./qualitiesList";
+import Loading from "./loading";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
@@ -20,14 +21,14 @@ const UserPage = ({ userId }) => {
             <div>
                 <h1>{user.name}</h1>
                 <h2>{`Профессия: ${user.profession.name}`}</h2>
-                <QualitiesList qualities={user.qualities}/>
+                <QualitiesList qualities={user.qualities} />
                 <p>{`completedMeetings: ${user.completedMeetings}`}</p>
                 <h2>{`Rate: ${user.rate}`}</h2>
                 <button onClick={handleReturn}>Все пользователи</button>
             </div>
         );
     } else {
-        return <h1>Loading</h1>;
+        return <Loading />;
     }
 };
 UserPage.propTypes = {
