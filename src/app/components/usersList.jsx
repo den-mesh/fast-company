@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import API from "../api";
 import _ from "lodash";
@@ -7,13 +7,15 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
-import { loading } from "../utils/loading";
+import Loading from "./loading";
+import SearchBar from "./searchBar";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [searchUser, setSearchUser] = useState("");
     const pageSize = 8;
 
     const [users, setUsers] = useState(API.users.fetchAll());
@@ -38,18 +40,14 @@ const UsersList = () => {
     };
 
     useEffect(() => {
-        API.professions
-            .fetchAll()
-            .then((data) =>
-                setProfessions(data)
-            );
+        API.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
 
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    const handleProfessionSelect = item => {
+    const handleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
 
@@ -61,25 +59,30 @@ const UsersList = () => {
         setSortBy(item);
     };
 
+    const handleSearch = (event) => {
+        setSelectedProf();
+        setSearchUser(event.target.value);
+    };
+
     useEffect(() => {
         setCurrentPage(1);
-    },
-    [selectedProf]);
-    // loading();
+    }, [selectedProf]);
+
     if (users) {
+        const searchedUsers = users.filter((user) => {
+            return user.name.toLowerCase().includes(searchUser.toLowerCase());
+        });
+
         const filteredUsers = selectedProf
             ? users.filter(
                 (user) =>
                     JSON.stringify(user.profession) === JSON.stringify(selectedProf)
             )
-            : users;
+            : searchedUsers;
+
         const count = filteredUsers.length;
-        const sortedUsers = _.orderBy(filteredUsers,
-            [sortBy.path],
-            [sortBy.order]);
-        const userCrop = paginate(sortedUsers,
-            currentPage,
-            pageSize);
+        const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
+        const userCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
         };
@@ -96,12 +99,17 @@ const UsersList = () => {
                             selectedItem={selectedProf}
                         />
                         <button className="btn btn-secondary mt-2" onClick={clearFilter}>
-                            Очистить
+              Очистить
                         </button>
                     </div>
                 )}
                 <div className="d-flex flex-column">
-                    <SearchStatus professions={professions} length={users.length}/>
+                    <SearchStatus professions={professions} length={count} />
+                    {users.length > 0
+                        ? (
+                            <SearchBar userName={searchUser} handleChange={handleSearch} />
+                        )
+                        : null}
 
                     {count > 0 && (
                         <UserTable
@@ -126,7 +134,7 @@ const UsersList = () => {
             </div>
         );
     }
-    return loading();
+    return <Loading />;
 };
 
 UsersList.propTypes = {
