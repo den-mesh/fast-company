@@ -18,7 +18,7 @@ const UsersList = () => {
     const [searchUser, setSearchUser] = useState("");
     const pageSize = 8;
 
-    const [users, setUsers] = useState(API.users.fetchAll());
+    const [users, setUsers] = useState();
 
     useEffect(() => {
         API.users.fetchAll().then((data) => setUsers(data));
@@ -45,9 +45,10 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchUser]);
 
     const handleProfessionSelect = (item) => {
+        if (searchUser !== "") setSearchUser("");
         setSelectedProf(item);
     };
 
@@ -60,7 +61,7 @@ const UsersList = () => {
     };
 
     const handleSearch = (event) => {
-        setSelectedProf();
+        setSelectedProf(undefined);
         setSearchUser(event.target.value);
     };
 
@@ -73,12 +74,14 @@ const UsersList = () => {
             return user.name.toLowerCase().includes(searchUser.toLowerCase());
         });
 
-        const filteredUsers = selectedProf
-            ? users.filter(
-                (user) =>
-                    JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-            )
-            : searchedUsers;
+        const filteredUsers = searchUser
+            ? searchedUsers
+            : selectedProf
+                ? users.filter(
+                    (user) =>
+                        JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+                )
+                : searchedUsers;
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
