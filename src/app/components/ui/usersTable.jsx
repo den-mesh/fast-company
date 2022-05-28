@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TableHeader from "./tableHeader";
-import TableBody from "./tableBody";
-import Bookmark from "./bookmark";
-import QualitiesList from "./qualitiesList";
-import Table from "./table";
+import Bookmark from "../common/bookmark";
+import Table from "../common/table/table";
+import Qualities from "./qualities";
 import { Link } from "react-router-dom";
+import { TableBody, TableHeader } from "../common/table";
 
 const UserTable = ({
     users,
@@ -18,11 +17,11 @@ const UserTable = ({
         name: {
             path: "name",
             name: "Имя",
-            component: (user) => (<Link to={`/users/${user._id}`}>{user.name}</Link>)
+            component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link>
         },
         qualities: {
             name: "Качества",
-            component: (user) => <QualitiesList qualities={user.qualities}/>
+            component: (user) => <Qualities qualities={user.qualities} />
         },
         professions: {
             path: "profession.name",
@@ -50,17 +49,15 @@ const UserTable = ({
                     className="btn btn-danger"
                     onClick={() => onDelete(user._id)}
                 >
-                    Удалить
+          Удалить
                 </button>
             )
         }
     };
     const caret = (path) => {
         if (path === selectedSort.path) {
-            const caretDirection = selectedSort.order === "asc"
-                ? "up"
-                : "down";
-            return <i className={`bi bi-caret-${caretDirection}-fill`}/>;
+            const caretDirection = selectedSort.order === "asc" ? "up" : "down";
+            return <i className={`bi bi-caret-${caretDirection}-fill`} />;
         }
     };
     return (
