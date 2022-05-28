@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import API from "../api";
-import QualitiesList from "./qualitiesList";
-import Loading from "./loading";
+import API from "../../../api";
+import QualitiesList from "../../ui/qualities/qualitiesList";
+import Loading from "../../common/loading";
 
 const UserPage = ({ userId }) => {
+    const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
         API.users.getById(userId).then((data) => setUser(data));
-    });
-    const history = useHistory();
+    }, []);
 
     const handleReturn = () => {
         history.push("/users");
@@ -24,7 +24,7 @@ const UserPage = ({ userId }) => {
                 <QualitiesList qualities={user.qualities} />
                 <p>{`completedMeetings: ${user.completedMeetings}`}</p>
                 <h2>{`Rate: ${user.rate}`}</h2>
-                <button onClick={handleReturn}>Все пользователи</button>
+                <button onClick={handleReturn}>Изменить</button>
             </div>
         );
     } else {
