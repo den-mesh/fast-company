@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Bookmark from "../common/bookmark";
-import Table from "../common/table/table";
+
+import BookMark from "../common/bookmark";
 import Qualities from "./qualities";
+import Table from "../common/table";
 import { Link } from "react-router-dom";
-import { TableBody, TableHeader } from "../common/table";
 
 const UserTable = ({
     users,
     onSort,
     selectedSort,
     onToggleBookMark,
-    onDelete
+    onDelete,
+    ...rest
 }) => {
     const columns = {
         name: {
@@ -23,10 +24,7 @@ const UserTable = ({
             name: "Качества",
             component: (user) => <Qualities qualities={user.qualities} />
         },
-        professions: {
-            path: "profession.name",
-            name: "Профессия"
-        },
+        professions: { path: "profession.name", name: "Профессия" },
         completedMeetings: {
             path: "completedMeetings",
             name: "Встретился, раз"
@@ -36,7 +34,7 @@ const UserTable = ({
             path: "bookmark",
             name: "Избранное",
             component: (user) => (
-                <Bookmark
+                <BookMark
                     status={user.bookmark}
                     onClick={() => onToggleBookMark(user._id)}
                 />
@@ -44,20 +42,10 @@ const UserTable = ({
         },
         delete: {
             component: (user) => (
-                <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => onDelete(user._id)}
-                >
-          Удалить
+                <button onClick={() => onDelete(user._id)} className="btn btn-danger">
+          delete
                 </button>
             )
-        }
-    };
-    const caret = (path) => {
-        if (path === selectedSort.path) {
-            const caretDirection = selectedSort.order === "asc" ? "up" : "down";
-            return <i className={`bi bi-caret-${caretDirection}-fill`} />;
         }
     };
     return (
@@ -66,10 +54,7 @@ const UserTable = ({
             selectedSort={selectedSort}
             columns={columns}
             data={users}
-        >
-            <TableHeader renderCaret={caret} {...{ onSort, selectedSort, columns }} />
-            <TableBody {...{ columns, data: users }} />
-        </Table>
+        />
     );
 };
 
